@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Image, Video, and Next Button</title>
+    <style>
+        body {
+            background-image: url("static/images/pass.jpg"); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        video {
+            position: absolute;
+            top: 60%;
+            left: 75%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 400px;
+        }
+
+        #next-button {
+            position: absolute;
+            top: 90%;
+            right: 22%;
+            padding: 10px 20px;
+            background-color: #849cc9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <video id="myVideo" controls>
+        <source src="static/images/birthday clip.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <button id="next-button">Next</button>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const nextButton = document.getElementById('next-button');
+
+        video.addEventListener('ended', () => {
+            nextButton.style.display = 'block';
+        });
+
+        nextButton.addEventListener('click', () => {
+            window.location.href = 'collage.html'; // Redirect to the collage page
+        });
+    </script>
+</body>
+</html>

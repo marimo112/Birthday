@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slide Puzzle Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            margin-left: 800px;
+            margin-bottom: 10px;
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+        #game-container {
+            position: relative;
+            width: 90vw;
+            height: 90vw;
+            max-width: 400px;
+            max-height: 600px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 2px;
+            background-color: #000;
+            border: 2px solid #000;
+        }
+        .tile {
+            background-size: 300% 300%;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        #message {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+        #next-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #6589cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+    <div id="message">
+        <h2>Congratulations! You've won!</h2>
+        <button id="next-button">Next</button>
+    </div>
+
+    <script>
+        const gameContainer = document.getElementById('game-container');
+        const message = document.getElementById('message');
+        const nextButton = document.getElementById('next-button');
+        let tiles = [];
+        let emptyTile = 8;
+
+        function createTiles() {
+            for (let i = 0; i < 9; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.style.backgroundImage = 'url(static/images/puzzle.png)';
+                tile.style.backgroundPosition = `${(i % 3) * 50}% ${Math.floor(i / 3) * 50}%`;
+                tile.addEventListener('click', () => moveTile(i));
+                gameContainer.appendChild(tile);
+                tiles.push(tile);
+            }
+            tiles[emptyTile].style.backgroundImage = 'none';
+            tiles[emptyTile].style.backgroundColor = 'white';
+        }
+
+        function moveTile(index) {
+            if (isAdjacent(index, emptyTile)) {
+                swapTiles(index, emptyTile);
+                emptyTile = index;
+                if (checkWin()) {
+                    message.style.display = 'block';
+                }
+            }
+        }
+
+        function isAdjacent(index1, index2) {
+            const row1 = Math.floor(index1 / 3);
+            const col1 = index1 % 3;
+            const row2 = Math.floor(index2 / 3);
+            const col2 = index2 % 3;
+            return (Math.abs(row1 - row2) + Math.abs(col1 - col2)) === 1;
+        }
+
+        function swapTiles(index1, index2) {
+            const tempBackground = tiles[index1].style.backgroundImage;
+            const tempPosition = tiles[index1].style.backgroundPosition;
+            
+            tiles[index1].style.backgroundImage = tiles[index2].style.backgroundImage;
+            tiles[index1].style.backgroundPosition = tiles[index2].style.backgroundPosition;
+            tiles[index2].style.backgroundImage = tempBackground;
+            tiles[index2].style.backgroundPosition = tempPosition;
+        }
+
+        function checkWin() {
+            for (let i = 0; i < 8; i++) {
+                if (tiles[i].style.backgroundPosition !== `${(i % 3) * 50}% ${Math.floor(i / 3) * 50}%`) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function shuffleTiles() {
+            for (let i = 0; i < 1000; i++) {
+                const adjacentTiles = getAdjacentTiles(emptyTile);
+                const randomIndex = Math.floor(Math.random() * adjacentTiles.length);
+                const tileToMove = adjacentTiles[randomIndex];
+                swapTiles(tileToMove, emptyTile);
+                emptyTile = tileToMove;
+            }
+        }
+
+        function getAdjacentTiles(index) {
+            const adjacent = [];
+            if (index % 3 > 0) adjacent.push(index - 1);
+            if (index % 3 < 2) adjacent.push(index + 1);
+            if (index > 2) adjacent.push(index - 3);
+            if (index < 6) adjacent.push(index + 3);
+            return adjacent;
+        }
+
+        createTiles();
+        shuffleTiles();
+
+        nextButton.addEventListener('click', () => {
+            // Add functionality for the next button here
+            window.location.href = 'bdaycake.html';
+        });
+
+        // Set background image
+        document.body.style.backgroundImage = 'url(static/images/pass.jpg)';
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Birthday Website</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .image-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .button-overlay {
+            position: absolute;
+            top: 80%;
+            left: 76%;
+            transform: translate(-50%, -50%);
+            
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .button-overlay button {
+            background-color: #849cc9;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .button-overlay {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media screen and (min-width: 1024px) and (max-width: 1023px) {
+            .button-overlay {
+                padding: 20px;
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .button-overlay {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="static/images/bgimage.jpg" alt="Birthday Image">
+        <div class="button-overlay">
+            <button onclick="redirectToPassword()">PLAY</button>
+        </div>
+    </div>
+    <script>
+        function redirectToPassword() {
+            window.location.href = "password.html";
+        }
+    </script>
+</body>
+</html>
